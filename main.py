@@ -20,6 +20,7 @@ from kivy.clock import Clock
 from kivy.uix.gridlayout import GridLayout
 from kivy.core.window import Window
 from kivymd.uix.picker import MDDatePicker
+from kivymd.uix.dropdownitem import MDDropDownItem
 from datetime import datetime
 import json
 from functools import partial
@@ -49,7 +50,8 @@ class LoginWindow(Screen):
 
 class MainWindow(Screen):
     #Variable definition - Fields to be compiled by user and submitted for Activity registration
-    int_category = Spinner()    
+    #int_category = MDDropDownItem()    
+    int_category = Spinner()
     int_hours = Spinner()
     int_minutes = Spinner()
     int_customer = Spinner()
@@ -154,12 +156,28 @@ class MainWindow(Screen):
                 self.layout.add_widget(button)
                 self.layout.add_widget(button2)
         else:
-            label = Label(text="There is some problems connecting to the server\nPress the button to refresh", color="#000000", size_hint=(0.1, 0.2))
-            button = Button(text="Refresh", size_hint=(0.1, 0.2))
+            label = Label(text="There is some problems connecting to the server\nPress the button to refresh", 
+                            color="#000000", halign="center", valign="top")#, pos_hint=(0.5,0.7), size=(0.05, 0.1))
+            button = Button(text="Refresh", halign="center", valign="middle")#, pos_hint=(0.5,0.65), size=(0.05, 0.05))
             button.bind(on_release=partial(self.btn_get_data_act))
-            
+
+            self.layout.add_widget(Label(text=""))
+            self.layout.add_widget(Label(text=""))
+
+
             self.layout.add_widget(label)
+
+            self.layout.add_widget(Label(text=""))
+            self.layout.add_widget(Label(text=""))
+            self.layout.add_widget(Label(text=""))
+            self.layout.add_widget(Label(text=""))
+
             self.layout.add_widget(button)
+
+            self.layout.add_widget(Label(text=""))
+            self.layout.add_widget(Label(text=""))
+            for i in range(15):
+                self.layout.add_widget(Label(text=""))
                 
 
     def get_date(self, date):
@@ -186,7 +204,8 @@ class MainWindow(Screen):
         return ['Home', 'Work', 'Other', 'Custom']
     
     def drop_sector(self):
-        return ["manutenzioe ordinaria", "installazione", "manutenzione speciale", "cantiere"]
+        print("THIS IS THE CENTRAL SCRUTINIZER")
+        return '["manutenzioe ordinaria", "installazione", "manutenzione speciale", "cantiere"]'
     
     def drop_customers(self, flag: bool):
         if flag is True:
@@ -305,20 +324,11 @@ def btnViewDetails(*args):
     data = args[0]
     index = args[1]
     # print(len(*args))
-    pop = Popup(title='Details',
-                  content=Label(text=json.dumps(data[index], indent=4)),
+    pop = Popup(title="Details",
+                content=Label(text=json.dumps(data[index], indent=4)),
                   size_hint=(None, None), size=(400, 400))
 
     pop.open()
-        
-# def btnAssign():
-#     url = URL + "ass"
-#     r = requests.post(url , json=data)
-#     print(r)
-#     if r.status_code == 200:
-#         self.assignmentSuccessful()
-#     else:
-#         assignmentUnsuccessful()
 
         
 def serverProblem():
@@ -360,6 +370,7 @@ class MyMainApp(MDApp):
     
 TIMEOUT = 2.5
 USER = ""
+#URL = "http://192.168.1.147:5056/"
 URL = "http://spotapp.hopto.org:5056/"
 
 sm = WindowManager()

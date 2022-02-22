@@ -1,0 +1,529 @@
+<LoginWindow>:
+    name: "login"
+
+    username: username
+    password: password
+
+    FloatLayout:
+
+        Label:
+            text:"Username: "
+            color: 0,0,0,1
+            font_size: (root.width**2 + root.height**2) / 13**4
+            pos_hint: {"x":0.1, "top":0.9}
+            size_hint: 0.35, 0.15
+
+        TextInput:
+            id: username
+            font_size: (root.width**2 + root.height**2) / 13**4
+            multiline: False
+            pos_hint: {"x": 0.45 , "top":0.9}
+            size_hint: 0.4, 0.15
+
+        Label:
+            text:"Password: "
+            color: 0,0,0,1
+            font_size: (root.width**2 + root.height**2) / 13**4
+            pos_hint: {"x":0.1, "top":0.7}
+            size_hint: 0.35, 0.15
+
+        TextInput:
+            id: password
+            font_size: (root.width**2 + root.height**2) / 13**4
+            multiline: False
+            password: True
+            pos_hint: {"x": 0.45, "top":0.7}
+            size_hint: 0.4, 0.15
+
+        Button:
+            pos_hint:{"x":0.2,"y":0.05}
+            size_hint: 0.6, 0.2
+            font_size: (root.width**2 + root.height**2) / 13**4
+            text: "Login"
+            on_release:
+                root.manager.transition.direction = "up"
+                root.loginBtn()
+
+        Button:
+            pos_hint:{"x":0.3,"y":0.3}
+            size_hint: 0.4, 0.1
+            font_size: (root.width**2 + root.height**2) / 17**4
+            text: "Don't have an Account? Create One"
+            on_release:
+                root.manager.transition.direction = "right"
+                root.createBtn()
+
+<MainWindow>:
+    name: "main"
+    int_category: int_category
+    int_hours: int_hours
+    int_minutes: int_minutes
+    int_customer: int_customer
+    int_customer_text: int_customer_text
+    int_ETA_hours: int_ETA_hours
+    int_ETA_minutes: int_ETA_minutes
+    int_description: int_description
+    int_products: int_products
+    int_user1: int_user1
+    int_user2: int_user2
+    int_user3: int_user3
+    exp_brand: exp_brand
+    exp_model: exp_model
+    exp_cost: exp_cost
+    exp_customer: exp_customer
+    exp_quantity: exp_quantity
+    exp_description: exp_description
+    exp_customer_text: exp_customer_text
+    exp_customer: exp_customer
+    view: view
+
+#    grid: grid
+
+    FloatLayout:
+
+        MDToolbar:
+            title: "Application Toolbar"
+            size_hint: (1, 0.1)
+            pos_hint: {"top": 1.0}
+            left_action_items: [['menu', lambda x: nav_drawer.set_state("open")]]
+        
+        ScreenManager:
+            id: sm_sub
+            Screen:
+                name:"activity_view"
+                MDLabel:
+                    text:"Lavori disponibili"
+                    pos_hint:{'center_x':1, "center_y": 0.85}
+                    
+                ScrollView:
+                    id: view
+                    size_hint: (1, 0.8)
+                    pos_hint: {"top": 0.8}
+                    scroll_type: ['bars']
+                    do_scroll_x: False
+                    do_scroll_y: True
+#                    GridLayout:
+#                        id: grid 
+#                        cols: 5   
+#                        pos_hint: {"top":0.9}
+#                        size_hint: (1, 1)
+
+
+            Screen:
+                name:"acitvity_registration"
+
+                ScrollView:
+                    do_scroll_y: True
+                    size_hint: (1, 0.9)
+                    pos_hint: {"top": 0.9}
+
+
+                    FloatLayout:
+                        size_hint: (1, 1.5)
+                        Label:
+                            text:"Registra intervento"
+                            pos_hint:{'x': 0, "center_y": 0.98}
+                            color: 0,0,0,1
+                        BoxLayout:
+                            orientation: "horizontal" 
+                            Label:
+                                pos_hint:{"x": 0.1, "top":0.95}
+                                size_hint:0.2, 0.06
+                                text: "Tipologia Intervento"
+                                color: 0,0,0,1
+                            Spinner:
+                                id: int_category
+                                font_size: (root.width**2 + root.height**2) / 13**4
+                                multiline: False
+                                pos_hint: {"x": 0.60 , "top":0.95}
+                                size_hint: 0.5, 0.06
+                                text: 'Seleziona Tipologia'
+                                values: root.drop_sector()
+                        
+                        BoxLayout:
+                            orientation: "horizontal"  
+                            Label:
+                                pos_hint:{"x": 0.1, "top":0.86}
+                                size_hint:0.2, 0.06
+                                text: "Cliente"
+                                color: 0,0,0,1  
+                            TextInput:
+                                id: int_customer_text
+                                font_size: (root.width**2 + root.height**2) / 13**4
+                                multiline: False
+                                pos_hint: {"x": 0.35 , "top":0.86}
+                                size_hint: 0.3, 0.06
+                                on_text: root.drop_customers(False)
+                                hint_text: "Cerca cliente"
+
+                            Spinner:
+                                id: int_customer
+                                pos_hint:{"x": 0.65, "top":0.86}
+                                size_hint:0.3, 0.06
+                                text: "Cliente"
+                                color: 0,0,0,1
+                                values: root.drop_customers(True)
+                                text: root.drop_customers(True)[0]
+                                font_size: (root.width**2 + root.height**2) / 13**4
+
+                        BoxLayout:
+                            orientation: "horizontal"  
+                            Label:
+                                pos_hint:{"x": 0.1, "top":0.78}
+                                size_hint:0.2, 0.06
+                                text: "Squadra"
+                                color: 0,0,0,1  
+                            Spinner:
+                                id: int_user1
+                                pos_hint:{"x": 0.65, "top":0.78}
+                                size_hint:0.18, 0.06
+                                color: 0,0,0,1
+                                values: root.drop_team()
+                                text: "nico"
+                                font_size: (root.width**2 + root.height**2) / 13**4
+                            Spinner:
+                                id: int_user2
+                                pos_hint:{"x": 0.65, "top":0.78}
+                                size_hint:0.18, 0.06
+                                color: 0,0,0,1
+                                values: root.drop_customers(True)
+                                text: "None"
+                                font_size: (root.width**2 + root.height**2) / 13**4
+                            Spinner:
+                                id: int_user3
+                                pos_hint:{"x": 0.65, "top":0.78}
+                                size_hint:0.18, 0.06
+                                color: 0,0,0,1
+                                values: root.drop_customers(True)
+                                text: "None"
+                                font_size: (root.width**2 + root.height**2) / 13**4
+
+
+
+              
+                        BoxLayout:
+                            orientation: 'horizontal'
+                            Label:
+                                id: int_duration
+                                pos_hint:{"x": 0.1, "top":0.7}
+                                size_hint:0.2, 0.06
+                                text: "Durata intervento"
+                                color: 0,0,0,1
+
+
+                            MDRaisedButton:
+                                #id: int_date
+                                text: "Open time picker"
+                                pos_hint: {'x': .3, 'top': 0.7}
+                                size_hint:0.15, 0.06
+                                on_release: root.show_date_picker()
+
+                                
+                            Spinner:
+                                id: int_hours
+                                size_hint: 0.15, 0.06
+                                pos_hint: {'x': .55, 'top': 0.7}
+                                text: 'Home'
+                                values: root.drop()
+                                on_text:
+                                    print("The spinner {} has text {}".format(self, self.text))
+                            
+                            Spinner:
+                                id: int_minutes
+                                size_hint: 0.15, 0.06
+                                pos_hint: {'x': .8, 'top': 0.7}
+                                text: 'Home'
+                                values: root.drop()
+                                on_text:
+                                    print("The spinner {} has text {}".format(self, self.text))         
+                        BoxLayout:
+                            orientation: 'horizontal'
+                            Label:
+                                pos_hint:{"x": 0.1, "top":0.60}
+                                size_hint:0.2, 0.06
+                                text: "ETA"
+                                color: 0,0,0,1
+                            Spinner:
+                                id: int_ETA_hours
+                                size_hint: 0.15, 0.06
+                                pos_hint: {'x': .55, 'top': 0.6}
+                                text: 'Home'
+                                values: root.drop()
+                                text: "Ore"
+                            
+                            Spinner:
+                                id: int_ETA_minutes
+                                size_hint: 0.15, 0.06
+                                pos_hint: {'x': .8, 'top': 0.6}
+                                text: 'Home'
+                                values: root.drop()
+                                text: "Minuti"
+
+
+                        BoxLayout:
+                            orientation: 'horizontal'
+                            Label:
+                                pos_hint:{"x": 0.1, "top":0.5}
+                                size_hint:0.2, 0.18
+                                text: "Descrizione intervento"
+                                color: 0,0,0,1    
+                
+                            TextInput:
+                                id: int_description
+                                font_size: (root.width**2 + root.height**2) / 13**4
+                                multiline: False
+                                pos_hint: {"x": 0.4 , "top":0.5}
+                                size_hint: 0.5, 0.18
+                        BoxLayout:
+                            orientation: 'horizontal'
+                            Label:
+                                pos_hint:{"x": 0.1, "top":0.3}
+                                size_hint:0.2, 0.14
+                                text: "Prodotti usati"
+                                color: 0,0,0,1    
+                
+                            TextInput:
+                                id: int_products
+                                font_size: (root.width**2 + root.height**2) / 13**4
+                                multiline: False
+                                pos_hint: {"x": 0.4 , "top":0.3}
+                                size_hint: 0.5, 0.14
+                
+                
+                        Button:
+                            pos_hint:{"x":0.3, "top": 0.1}
+                            size_hint:0.4,0.1
+                            text: "Submit"
+                            on_release:
+                                root.actSubmitBtn()
+                                app.root.current = "submitted"
+                                root.manager.transition.direction = "right"
+                        
+            Screen:
+                name:"expense_registration"
+                ScrollView:
+                    do_scroll_y: True
+                    size_hint: (1, 0.9)
+                    pos_hint: {"top": 0.9}
+
+                    FloatLayout:
+                        size_hint: (1, 1.5)
+                        Label:
+                            text:"Registra spesa"
+                            pos_hint:{'x': 0, "center_y": 0.98}
+                            color: 0,0,0,1
+                        BoxLayout:
+                            orientation:'horizontal'
+                            Label:
+                                pos_hint:{"x": 0.1, "top":0.9}
+                                size_hint:0.15, 0.05
+                                text: "Marca"
+                                color: 0,0,0,1
+                            TextInput:
+                                id: exp_brand
+                                font_size: (root.width**2 + root.height**2) / 13**4
+                                multiline: False
+                                pos_hint: {"x": 0.3 , "top":0.9}
+                                size_hint: 0.15, 0.05
+                            Label:
+                                pos_hint:{"x": 0.5, "top":0.9}
+                                size_hint:0.15, 0.05
+                                text: "Modello"
+                                color: 0,0,0,1
+                            TextInput:
+                                id: exp_model
+                                font_size: (root.width**2 + root.height**2) / 13**4
+                                multiline: False
+                                pos_hint: {"x": 0.75 , "top":0.9}
+                                size_hint: 0.15, 0.05
+                            
+                        BoxLayout:
+                            orientation:'horizontal'
+                            Label:
+                                pos_hint:{"x": 0.1, "top":0.83}
+                                size_hint:0.15, 0.15
+                                text: "Descrizione"
+                                color: 0,0,0,1
+                    
+                            TextInput:
+                                id: exp_description
+                                font_size: (root.width**2 + root.height**2) / 13**4
+                                multiline: False
+                                pos_hint: {"x": 0.5 , "top":0.83}
+                                size_hint: 0.15, 0.05
+                            
+                        BoxLayout:
+                            orientation:'horizontal'    
+                            Label:
+                                pos_hint:{"x": 0.1, "top":0.65}
+                                size_hint:0.15, 0.05
+                                text: "Quantità"
+                                color: 0,0,0,1
+                    
+                            TextInput:
+                                id: exp_quantity
+                                font_size: (root.width**2 + root.height**2) / 13**4
+                                multiline: False
+                                pos_hint: {"x": 0.3 , "top":0.65}
+                                size_hint: 0.15, 0.05
+                            Label:
+                                pos_hint:{"x": 0.5, "top":0.65}
+                                size_hint:0.15, 0.05
+                                text: "Costo"
+                                color: 0,0,0,1
+                    
+                            TextInput:
+                                id: exp_cost
+                                font_size: (root.width**2 + root.height**2) / 13**4
+                                multiline: False
+                                pos_hint: {"x": 0.75 , "top":0.65}
+                                size_hint: 0.15, 0.05
+                        BoxLayout:
+                            orientation: "horizontal"  
+                            Label:
+                                pos_hint:{"x": 0.1, "top":0.55}
+                                size_hint:0.15, 0.05
+                                text: "Cliente"
+                                color: 0,0,0,1  
+                            TextInput:
+                                id: exp_customer_text
+                                font_size: (root.width**2 + root.height**2) / 13**4
+                                multiline: False
+                                pos_hint: {"x": 0.35 , "top":0.55}
+                                size_hint: 0.15, 0.05
+                                on_text: root.drop_customers(False)
+                                hint_text: "Cerca cliente"
+                            Spinner:
+                                id: exp_customer
+                                pos_hint:{"x": 0.65, "top":0.55}
+                                size_hint:0.15, 0.05
+                                text: "Cliente"
+                                color: 0,0,0,1
+                                values: root.drop()#_customers(True)
+                                #text: root.drop_customers(True)[0]
+                                #font_size: (root.width**2 + root.height**2)                
+                
+                        Button:
+                            pos_hint:{"x":0.2, "y": 0.1}
+                            size_hint:0.15,0.1
+                            text: "Submit"
+                            on_release:
+                                root.expSubmitBtn()
+                                app.root.current = "submitted"
+                                root.manager.transition.direction = "right"
+                
+    MDNavigationDrawer:
+        id: nav_drawer
+        BoxLayout:
+            orientation: 'vertical'
+            Button:
+                text:"Registra Intervento"
+                on_release:
+                    sm_sub.current='acitvity_registration'
+            Button:
+                text:"Registra Spesa"
+                on_release:
+                    sm_sub.current='expense_registration'
+            Button:
+                text:"Vedi Interventi Disponibili"
+                on_release:
+                    sm_sub.current='activity_view'
+                
+<SubmittedWindow>:
+    name: "submitted"
+
+    k: k
+
+    FloatLayout:
+
+        Label:
+            id: k
+            text:"             ahahahahaha \n THIS IS THE CENTRAL SCRUUUUTINIZER \n          data submitted"
+            font_size: (root.width**2 + root.height**2) / 13**4
+            pos_hint: {"x":0.35, "top":0.9}
+            size_hint: 0.35, 0.15
+            color: 0,0,0,1
+            
+        Button:
+            pos_hint:{"x":0.2,"y":0.05}
+            size_hint: 0.6, 0.2
+            font_size: (root.width**2 + root.height**2) / 13**4
+            text: "Go Back"
+            on_release:
+                root.manager.transition.direction = "left"
+                root.goBack()
+                
+<AssignmentWindow>:
+    name: "assign"
+
+    details: details
+    ass_id: ass_id
+
+    FloatLayout:
+
+        BoxLayout:
+            orientation: "horizontal"
+            Label:
+                id: ass_id
+                multiline: True
+                font_size: (root.width**2 + root.height**2) / 13**4
+                pos_hint: {"x":0.1, "top":0.9}
+                size_hint: 0.35, 0.15
+                color: 0,0,0,1
+            Label:
+                id: details
+                multiline: True
+                font_size: (root.width**2 + root.height**2) / 13**4
+                pos_hint: {"x":0.5, "top":0.9}
+                size_hint: 0.35, 0.15
+                color: 0,0,0,1
+
+            
+        BoxLayout:
+            orientation: "horizontal"  
+            Label:
+                pos_hint:{"x": 0.1, "top":0.78}
+                size_hint:0.2, 0.06
+                text: "Scegli Squadra"
+                color: 0,0,0,1  
+            Spinner:
+                #id: int_customer
+                pos_hint:{"x": 0.65, "top":0.78}
+                size_hint:0.18, 0.06
+                color: 0,0,0,1
+                values: root.get_data_ass()
+                text: "nico"
+                font_size: (root.width**2 + root.height**2) / 13**4
+            Spinner:
+                #id: int_customer
+                pos_hint:{"x": 0.65, "top":0.78}
+                size_hint:0.18, 0.06
+                color: 0,0,0,1
+                values: root.get_data_ass()
+                text: "None"
+                font_size: (root.width**2 + root.height**2) / 13**4
+            Spinner:
+                #id: int_customer
+                pos_hint:{"x": 0.65, "top":0.78}
+                size_hint:0.18, 0.06
+                color: 0,0,0,1
+                values: root.get_data_ass()
+                text: "None"
+                font_size: (root.width**2 + root.height**2) / 13**4
+        Button:
+            pos_hint:{"x":0.2,"top":0.5}
+            size_hint: 0.6, 0.2
+            font_size: (root.width**2 + root.height**2) / 13**4
+            text: "Assign"
+            on_release:
+                root.assign()
+            
+        Button:
+            pos_hint:{"x":0.2,"top":0.25}
+            size_hint: 0.6, 0.2
+            font_size: (root.width**2 + root.height**2) / 13**4
+            text: "Go Back"
+            on_release:
+                root.manager.transition.direction = "left"
+                root.goBack()
+

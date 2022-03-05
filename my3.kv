@@ -6,8 +6,8 @@
 
     FloatLayout:
         MDLabel:
-            pos_hint:{"x": 0.4, "top":0.9}
-            size_hint:0.2, 0.06
+            pos_hint:{"x": 0.3, "top":1}
+            size_hint:0.8, 0.15
             font_size: (root.width**2 + root.height**2) / 15**4
             text: "Esegui il Login per accedere"
             color: 0,0,0,1
@@ -403,11 +403,11 @@
                 
     MDNavigationDrawer:
         id: nav_drawer
-        size : root.width*0.4, root.height
+        size : root.width*0.6, root.height
         BoxLayout:
             orientation: 'vertical'
             #valign: "top"
-            size : root.width*0.4, root.height
+            size : root.width*0.6, root.height
             MDRaisedButton:
                 size_hint_x: 1
                 size_hint_y: None

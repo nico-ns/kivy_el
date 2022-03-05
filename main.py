@@ -136,23 +136,26 @@ class MainWindow(Screen):
         if items_N>0:
             for i in range(len(resp_d)):
                 
-                label = Label(text=f"{resp_d[i]['id']['Nome']}", color="#000000", size_hint_y=0.07, height=40)
-                label2 = Label(text=f"{resp_d[i]['details']}", color="#000000", size_hint_y=0.38, height=40)
+#                label = Label(text=f"{resp_d[i]['id']['Nome']}", color="#000000", size_hint_y=0.07, height=40)
+                label2 = Label(text=f"{resp_d[i]['details']}", color="#000000", size_hint_x=0.57, height=40)
                 label2.bind(width=lambda *x: label2.setter('text_size')(label2, (label2.width, None)),
                           texture_size=lambda *x: label2.setter('height')(label2, label2.texture_size[1]))
-                label3 = Label(text=f"{resp_d[i]['status']}", color="#000000", size_hint_y=0.07, height=40)
+#                label3 = Label(text=f"{resp_d[i]['status']}", color="#000000", size_hint_y=0.07, height=40)
+                label1 = Label(text="", size_hint_x=0)
+                label3 = Label(text="", size_hint_x=0)
                 
                 self.manager.some_value.append(resp_d)
-                button = Button(text="Vedi dettagli", size_hint_y=0.18, height=40)
+#                button = Button(text="Vedi dettagli", size_hint_y=None, text_size=(button.width, None), height=texture_size[1])
+                button = Button(text="Vedi \ndettagli", size_hint_x=0.2, height=40)
                 buttoncallback = partial(btnViewDetails, resp_d, i)
                 button.bind(on_press=buttoncallback)
                 
-                button2 = Button(text="Assegna attività", size_hint_y=0.18, height=40)
+                button2 = Button(text="Assegna \nattività", size_hint_x=0.2, height=40)
                 buttoncallback2 = partial(self.btnAssign, resp_d, i)
                 button2.bind(on_press=buttoncallback2)
                 
                 
-                self.layout.add_widget(label)
+                self.layout.add_widget(label1)
                 self.layout.add_widget(label3)
                 self.layout.add_widget(label2)
                 self.layout.add_widget(button)
@@ -328,7 +331,7 @@ def btnViewDetails(*args):
     # print(len(*args))
     pop = Popup(title="Details",
                 content=Label(text=json.dumps(data[index], indent=4)),
-                  size_hint=(None, None), size=(400, 400))
+                  size_hint=(None, None))#, size=(400, 400))
 
     pop.open()
 
